@@ -6,7 +6,7 @@
 #define M 30
 #define N 40
 
-void show(char g[][N]) ;
+int show(char g[][N]) ;
 double r() {
     return rand() * 1.0 / RAND_MAX;
 }
@@ -41,24 +41,41 @@ int main()
     srand(1509919);
     char array[M*N];
     array[5*40 + 25] = 'T';
-    char grid[M][N];
-    grid[5][25] = 'T'; // does same thing as above
+    //char grid[M][N];
+    //grid[5][25] = 'T'; // does same thing as above
     fill(array, 0.60, 1200);
-    fill2(grid, 0.60);
-    show(grid);
+    int sum = 0;
+    for (int i = 0; i < 100; i++) {
+        char grid[M][N];
+        fill2(grid, 0.60);
+        sum += show(grid);
+    }
+    printf("sum = %d\n", sum);
     return 0;
 }
 
-void show(char g[][N]) {
+int show(char g[][N]) {
     int count = 0;
+    int countFirst = 0;
+    int countNext = 0;
+    int countBoth = 0;
     for (int i = 0; i < M; i++) {
         for (int j = 0; j < N; j++) {
-            printf("%c", g[i][j]);
+            //printf("%c", g[i][j]);
             if (g[i][j] == 'X') {
                 count++;
+//                if (j == 0) countFirst++;
+//                if (j == 1) {
+//                    countNext++;
+//                    if (g[i][j-1] == 'X') countBoth++;
+//                }
             }
         }
-        printf("\n");
+        //printf("\n");
     }
-    printf("The count is %d\n", count);
+    //printf("The count is %d\n", count);
+    //printf("The countFirst is %d\n", countFirst);
+    //printf("The countNext is %d\n", countNext);
+    //printf("The countBoth is %d\n", countBoth);
+    return count;
 }
