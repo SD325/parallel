@@ -1,3 +1,6 @@
+//
+// Spandan Das
+//
 #include <stdio.h>
 #include <stdlib.h>
 #define M 30
@@ -35,7 +38,7 @@ void fill2(char g[][N], double p) {
 
 int main()
 {
-    srand(7);
+    srand(1509919);
     char array[M*N];
     array[5*40 + 25] = 'T';
     char grid[M][N];
@@ -47,10 +50,15 @@ int main()
 }
 
 void show(char g[][N]) {
+    int count = 0;
     for (int i = 0; i < M; i++) {
         for (int j = 0; j < N; j++) {
             printf("%c", g[i][j]);
+            if (g[i][j] == 'X') {
+                count++;
+            }
         }
         printf("\n");
     }
+    printf("The count is %d\n", count);
 }
