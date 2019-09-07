@@ -2,20 +2,19 @@
 // Created by Spandan Das on 9/5/2019.
 //
 #include <stdio.h>
-//#include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #define M 30
 #define N 40
 #define MAX M*N
 
 // implement queue using an array
 
+int time = 0;
 int a[MAX];
 int front = 0;
 int back = -1;
 int total = 0;
-//int timemarker = 0;
+int time_marker = 0;
 
 void add(int x) {
     a[++back] = x;
@@ -24,6 +23,10 @@ void add(int x) {
 
 int deque() {
     total--;
+    if (front + 1 == time_marker) {
+        time++;
+        time_marker = back;
+    }
     return a[front++];
 }
 
@@ -49,7 +52,6 @@ void fill(char g[][N], double p) {
 }
 
 int fire(char g[][N]) {
-    int time = 0;
     for (int i = 0; i < M; i++) {
         if (g[i][0] == 'X')  {
             add(i*N); //add to queue
@@ -57,12 +59,10 @@ int fire(char g[][N]) {
             //printf("%d ", i);
         }
     }
-    //printf("\n");
-    setbuf(stdout, 0);
-    //show(g);
+    time_marker = back;
+
+    setbuf(stdout, 0); // useful for debug
     while (total != 0) {
-        //show(g);
-        //printf("________________________________________\n");
         int ind = deque();
         int x = ind/N;
         int y = ind%N;
@@ -88,7 +88,7 @@ int main()
     char grid[M][N];
     fill(grid, 0.60);
     //show(grid);
-    fire(grid);
+    printf("time: %d", fire(grid));
     //show(grid);
     return 0;
 }
