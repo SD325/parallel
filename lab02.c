@@ -14,6 +14,15 @@ int front = 0;
 int back = -1;
 int total = 0;
 
+void reset() {
+    for (int i = 0; i < M*N; i++) {
+        a[i] = 0;
+    }
+    front = 0;
+    back = -1;
+    total = 0;
+}
+
 void add(int x) {
     a[++back] = x;
     total++;
@@ -84,15 +93,23 @@ int fire(char g[][N]) {
     return time;
 }
 
-int main()
-{
+int main() {
     srand(1509919);
-    char grid[M][N];
-    fill(grid, 0.60);
-    int burnout = fire(grid);
-    double norm =  burnout / (double) N;
-    printf("time: %d\n", burnout);
-    printf("normalized: %f\n", norm);
+    int t = 10;
+    for (double p = 0.01; p <= 1.00; p += 0.01) {
+        double norm_sum = 0;
+        for (int i = 0; i < t; i++) {
+            char grid[M][N];
+            fill(grid, p);
+            int burnout = fire(grid);
+            norm_sum += burnout / (double) N;
+            reset();
+            //printf("time: %d\n", burnout);
+            //printf("normalized: %f\n", norm);
+        }
+        double avg_norm = norm_sum / (double) t;
+        printf("%f, %f \n", p, avg_norm);
+    }
     return 0;
 }
 
