@@ -45,12 +45,11 @@ int main()
     //grid[5][25] = 'T'; // does same thing as above
     fill(array, 0.60, 1200);
     int sum = 0;
-    for (int i = 0; i < 100; i++) {
-        char grid[M][N];
-        fill2(grid, 0.60);
-        sum += show(grid);
-    }
-    printf("sum = %d\n", sum);
+    char grid[M][N];
+    fill2(grid, 0.60);
+    sum += show(grid);
+    //printf("sum = %d\n", sum);
+    show(grid);
     return 0;
 }
 
@@ -61,7 +60,7 @@ int show(char g[][N]) {
     int countBoth = 0;
     for (int i = 0; i < M; i++) {
         for (int j = 0; j < N; j++) {
-            //printf("%c", g[i][j]);
+            printf("%c", g[i][j]);
             if (g[i][j] == 'X') {
                 count++;
 //                if (j == 0) countFirst++;
@@ -71,7 +70,7 @@ int show(char g[][N]) {
 //                }
             }
         }
-        //printf("\n");
+        printf("\n");
     }
     //printf("The count is %d\n", count);
     //printf("The countFirst is %d\n", countFirst);
