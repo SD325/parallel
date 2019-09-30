@@ -95,7 +95,7 @@ int fire(char g[][N]) {
 
 int main() {
     srand(1509919);
-    int t = 10;
+    int t = 100;
     for (double p = 0.01; p <= 1.00; p += 0.01) {
         double norm_sum = 0;
         for (int i = 0; i < t; i++) {
