@@ -136,7 +136,7 @@ int main(int argc, char *argv[]) {
     // manager has rank = 0
     //
     if (rank == 0) {
-        printf("\n");
+        //printf("\n");
         //
         for (double p = 0.01; p <= 1.00; p += 0.01) {
             for (k = 1; k < size; k++) {
@@ -144,10 +144,10 @@ int main(int argc, char *argv[]) {
                 //
                 j = status.MPI_SOURCE;
                 //
-                printf("%d %d %20.16f\n", j, size, result);
+                //printf("%d %d %20.16f\n", j, size, result);
             }
             //
-            printf("\n");
+            //printf("\n");
         }
     }
         //
