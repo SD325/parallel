@@ -158,7 +158,7 @@ int main(int argc, char *argv[]) {
         int t = 100;
         for (double p = 0.01; p <= 1.00; p += 0.01) {
             double norm_sum = 0;
-            for (int i = 0; i < t / size; i++) {
+            for (int i = 0; i < t / (size-1); i++) {
                 char grid[M][N];
                 fill(grid, p);
                 int burnout = fire(grid);
@@ -167,7 +167,7 @@ int main(int argc, char *argv[]) {
                 //printf("time: %d\n", burnout);
                 //printf("normalized: %f\n", norm);
             }
-            double avg_norm = norm_sum / (double) t;
+            double avg_norm = norm_sum / (double) t*(size-1);
             MPI_Send(&avg_norm, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
         }
     }
