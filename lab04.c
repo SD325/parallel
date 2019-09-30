@@ -154,6 +154,7 @@ int main(int argc, char *argv[]) {
         // workers have rank > 0
         //
     else {
+        srand(rank);
         int t = 100;
         for (double p = 0.01; p <= 1.00; p += 0.01) {
             double norm_sum = 0;
