@@ -156,6 +156,7 @@ int main(int argc, char *argv[]) {
     else {
         srand(rank);
         int t = 100;
+        double max = 0.0;
         for (float p = 0.01; p <= 1.00; p += 0.01) {
             double norm_sum = 0;
             for (int i = 0; i < t / (size-1); i++) {
@@ -169,6 +170,7 @@ int main(int argc, char *argv[]) {
             }
             double avg_norm = norm_sum / (double) t*(size-1);
             MPI_Send(&avg_norm, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
+            printf("%d\n", avg_norm);
         }
     }
     //
