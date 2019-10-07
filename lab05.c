@@ -169,8 +169,11 @@ int main(int argc, char *argv[]) {
                 //printf("normalized: %f\n", norm);
             }
             double avg_norm = norm_sum / (double) t*(size-1);
+            if (avg_norm > max) {
+                max = avg_norm;
+                printf("%d : p = %f ---- %f\n", rank, p, max);
+            }
             MPI_Send(&avg_norm, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
-            printf("%d : p = %f ---- %f\n", rank, p, avg_norm);
         }
     }
     //
