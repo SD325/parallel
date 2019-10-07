@@ -170,7 +170,7 @@ int main(int argc, char *argv[]) {
             }
             double avg_norm = norm_sum / (double) t*(size-1);
             MPI_Send(&avg_norm, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
-            printf("%d : %f\n", rank, avg_norm);
+            printf("%d : p = %f ---- %f\n", rank, p, avg_norm);
         }
     }
     //
