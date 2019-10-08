@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
         //
         for (float p = 0.01; p <= 1.00; p += 0.01) {
             for (k = 1; k < size; k++) {
-                MPI_Recv(&result, p, 1, MPI_DOUBLE, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
+                MPI_Recv(&result, &p, 1, MPI_DOUBLE, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
                 //
                 j = status.MPI_SOURCE; // worker number
                 //
@@ -183,7 +183,7 @@ int main(int argc, char *argv[]) {
 //                max = avg_norm;
 //                p_max = p;
 //            }
-            MPI_Send(&avg_norm, p, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
+            MPI_Send(&avg_norm, &p, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
         }
         //printf("%d : p = %f ---- %f\n", rank, p_max, max);
     }
