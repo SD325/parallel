@@ -135,20 +135,29 @@ int main(int argc, char *argv[]) {
     //
     // manager has rank = 0
     //
+    double results[101]; // values for each p
+    int index = 0;
     if (rank == 0) {
         //printf("\n");
         //
         for (float p = 0.01; p <= 1.00; p += 0.01) {
             for (k = 1; k < size; k++) {
-                MPI_Recv(&result, 1, MPI_DOUBLE, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
+                MPI_Recv(&result, p, 1, MPI_DOUBLE, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
                 //
-                j = status.MPI_SOURCE;
+                j = status.MPI_SOURCE; // worker number
                 //
-                printf("%d %d %20.16f\n", j, size, result);
+                index = p * 100;
+                results[index] += result;
+                //printf("%d %d %20.16f\n", j, size, result);
             }
             //
             //printf("\n");
         }
+        for (int i = 0; i < 101; i++) {
+            results[i] = results[i] / 4.0;
+            printf("%20.16f\n", results[i]);
+        }
+
     }
         //
         // workers have rank > 0
@@ -156,8 +165,8 @@ int main(int argc, char *argv[]) {
     else {
         srand(rank);
         int t = 100;
-        double max = 0.0;
-        double p_max = 0.0;
+//        double max = 0.0;
+//        double p_max = 0.0;
         for (float p = 0.01; p <= 1.00; p += 0.01) {
             double norm_sum = 0;
             for (int i = 0; i < t / (size-1); i++) {
@@ -170,13 +179,13 @@ int main(int argc, char *argv[]) {
                 //printf("normalized: %f\n", norm);
             }
             double avg_norm = norm_sum / (double) t*(size-1);
-            if (avg_norm > max) {
-                max = avg_norm;
-                p_max = p;
-            }
-            MPI_Send(&avg_norm, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
+//            if (avg_norm > max) {
+//                max = avg_norm;
+//                p_max = p;
+//            }
+            MPI_Send(&avg_norm, p, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
         }
-        printf("%d : p = %f ---- %f\n", rank, p_max, max);
+        //printf("%d : p = %f ---- %f\n", rank, p_max, max);
     }
     //
     // boilerplate
