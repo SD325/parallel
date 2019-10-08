@@ -136,7 +136,6 @@ int main(int argc, char *argv[]) {
     // manager has rank = 0
     //
     double results[101]; // values for each p
-    int index = 0;
     if (rank == 0) {
         //printf("\n");
         //
@@ -148,7 +147,7 @@ int main(int argc, char *argv[]) {
             results[0] += result;
             for (int p = 1; p <= 100; p++) {
                 MPI_Recv(&result, 1, MPI_DOUBLE, j, tag, MPI_COMM_WORLD, &status);
-                results[index] += result;
+                results[p] += result;
             }
             //printf("%d %d %20.16f\n", j, size, result);
         }
