@@ -140,21 +140,20 @@ int main(int argc, char *argv[]) {
     if (rank == 0) {
         //printf("\n");
         //
-        for (float p = 0.01; p <= 1.00; p += 0.01) {
-            for (k = 1; k < size; k++) {
-                MPI_Recv(&result, &p, 1, MPI_DOUBLE, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
-                //
-                j = status.MPI_SOURCE; // worker number
-                //
-                index = p * 100;
-                results[index] += result;
-                //printf("%d %d %20.16f\n", j, size, result);
-            }
+        for (k = 1; k < size; k++) {
+            MPI_Recv(&result, 1, MPI_DOUBLE, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
             //
-            //printf("\n");
+            j = status.MPI_SOURCE; // worker number
+            //
+            results[0] += result;
+            for (int p = 1; p <= 100; p++) {
+                MPI_Recv(&result, 1, MPI_DOUBLE, j, tag, MPI_COMM_WORLD, &status);
+                results[index] += result;
+            }
+            //printf("%d %d %20.16f\n", j, size, result);
         }
         for (int i = 0; i < 101; i++) {
-            results[i] = results[i] / 4.0;
+            results[i] = results[i] / (double) size;
             printf("%20.16f\n", results[i]);
         }
 
@@ -183,7 +182,7 @@ int main(int argc, char *argv[]) {
 //                max = avg_norm;
 //                p_max = p;
 //            }
-            MPI_Send(&avg_norm, &p, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
+            MPI_Send(&avg_norm, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
         }
         //printf("%d : p = %f ---- %f\n", rank, p_max, max);
     }
