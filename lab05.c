@@ -144,14 +144,14 @@ int main(int argc, char *argv[]) {
             //
             j = status.MPI_SOURCE; // worker number
             //
-            results[0] += result;
-            for (int p = 1; p <= 100; p++) {
+            results[1] += result;
+            for (int p = 2; p <= 100; p++) {
                 MPI_Recv(&result, 1, MPI_DOUBLE, j, tag, MPI_COMM_WORLD, &status);
                 results[p] += result;
             }
             //printf("%d %d %20.16f\n", j, size, result);
         }
-        for (int i = 0; i < 101; i++) {
+        for (int i = 1; i < 101; i++) {
             results[i] = results[i] / (double) size;
             printf("%20.16f\n", results[i]);
         }
