@@ -151,10 +151,17 @@ int main(int argc, char *argv[]) {
             }
             //printf("%d %d %20.16f\n", j, size, result);
         }
+        double max = -1;
+        int ind_max = 0;
         for (int i = 1; i < 101; i++) {
             results[i] = results[i] / (double) size;
-            printf("%20.16f\n", results[i]);
+            if (results[i] > max) {
+                max = results[i];
+                ind_max = i;
+            }
+            //printf("%20.16f\n", results[i]);
         }
+        printf("%20.16f %20.16f\n", results[ind_max], (ind_max/100.0));
 
     }
         //
