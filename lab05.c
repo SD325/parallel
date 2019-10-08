@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
                 //
                 j = status.MPI_SOURCE;
                 //
-                //printf("%d %d %20.16f\n", j, size, result);
+                printf("%d %d %20.16f\n", j, size, result);
             }
             //
             //printf("\n");
