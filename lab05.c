@@ -15,8 +15,8 @@
 //
 #include "mpi.h"
 //
-#define M 60
-#define N 80
+#define M 30
+#define N 40
 #define MAX M*N
 int a[MAX];
 int front = 0;
