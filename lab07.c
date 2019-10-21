@@ -65,8 +65,8 @@ int main()
         y[j] = y[j-1] + DT * vy[j-1] ;
         //
         // calculate a
-        double dist = x[j]*x[j] + y[j]*y[j];
-        a = (M*G)/dist;
+        double dist = sqrt(x[j]*x[j] + y[j]*y[j]);
+        a = (M*G)/(dist*dist);
         //
         // update vx
         vx[j] = vx[j-1] + DT * (-x[j]) / dist;
