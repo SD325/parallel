@@ -15,14 +15,14 @@
 //
 // parameters
 //
-#define DT 0.25     // s
+#define DT 1     // s
 //
 int main()
 {
     //
     // time intervals - duration is 90 minutes
     //
-    int n = (int)( 0.5 + ( 1.5 * 60 * 60 ) / DT ) ;
+    int n = (int)( 0.5 + ( 4.0 * 60 * 60 ) / DT ) ;
     //
     //////////////////////////////////////////////////
     //
@@ -54,9 +54,20 @@ int main()
     y[0]  = R + 400000.0 ;
     vx[0] =       7670.1 ;
     vy[0] =          0.0 ;
+
+    // for hyperbolic:
+//    x[0] = -25292115.2221577350000000;
+//    y[0] = -9182197.7074789144000000;
+//    vx[0] = 4640.4073870538150000;
+//    vy[0] = 4764.7461535995972000;
     //
     //////////////////////////////////////////////////
     //
+    // elliptical
+    //vx[0] *= 1.2;
+    //hyperbolic
+    vx[0] *= 1.5;
+
     for( j = 1 ; j < n ; j ++ )
     {
         t[j] = t[j-1] + DT           ;
@@ -65,13 +76,13 @@ int main()
         y[j] = y[j-1] + DT * vy[j-1] ;
         //
         // calculate a
-        double dist = sqrt(x[j]*x[j] + y[j]*y[j]);
-        a = (M*G)/(dist*dist);
+        r = sqrt(x[j]*x[j] + y[j]*y[j]);
+        a = (M*G)/(r*r);
         //
         // update vx
-        vx[j] = vx[j-1] + DT * (-x[j]) / dist;
+        vx[j] = vx[j-1] - DT * (x[j] * a) / r;
         // update vy
-        vy[j] = vy[j-1] + DT * (-y[j]) / dist;
+        vy[j] = vy[j-1] - DT * (y[j] * a) / r;
         //
     }
     //
@@ -79,9 +90,14 @@ int main()
     //
     fout = fopen( "orbit.csv" , "w" ) ;
     //
+    double dist, speed;
+    fprintf(fout, "Index, Time, X, Y, Distance, Speed, vx, vy\n");
     for( j = 0 ; j < n ; j ++ )
     {
-        fprintf( fout , "%d, %0.16f, %0.16f, %0.16f\n" , j , t[j] , x[j] , y[j] ) ;
+        dist = sqrt(x[j]*x[j] + y[j]*y[j]);
+        speed = sqrt(vx[j]*vx[j] + vy[j]*vy[j]);
+        fprintf( fout , "%d, %0.16f, %0.16f, %0.16f, %0.16f, %0.16f, %0.16f, %0.16f\n" , j , t[j] , x[j] , y[j], dist, speed, vx[j], vy[j]) ;
+        //fprintf( fout , "%d, %0.16f, %0.16f, %0.16f\n" , j, t[j] , dist, speed);
         //
         // what else to print ?
         //
