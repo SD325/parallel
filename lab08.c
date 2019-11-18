@@ -10,19 +10,21 @@
 //
 // https://ssd.jpl.nasa.gov/?planet_phys_par
 //
-#define M 5.972e+24 // kg
-#define R 6.371e+6  // m
+#define M 7.349e+22 // kg
+#define R 1.7374e+6 // m
+#define V 1023.157  // m/s
+
 //
 // parameters
 //
-#define DT 1     // s
+#define DT 100    // s
 //
 int main()
 {
     //
     // time intervals - duration is 90 minutes
     //
-    int n = (int)( 0.5 + ( 4.0 * 60 * 60 ) / DT ) ;
+    int n = (int)( 0.5 + ( 29 * 24.0 * 60 * 60 ) / DT ) ;
     //
     //////////////////////////////////////////////////
     //
@@ -38,7 +40,8 @@ int main()
     //
     int    j     ;
     //
-    double r , a ;
+    double r = 3.844e8 ;
+    double a ;
     //
     //////////////////////////////////////////////////
     //
@@ -50,10 +53,10 @@ int main()
     // Page 54 - speed    : 28,000 km per hour
     //
     t[0]  =          0.0 ;
-    x[0]  =          0.0 ;
-    y[0]  = R + 400000.0 ;
-    vx[0] =       7670.1 ;
-    vy[0] =          0.0 ;
+    x[0]  =          r ;
+    y[0]  =         0.0 ;
+    vx[0] =         0.0 ;
+    vy[0] =          V;
 
     // for hyperbolic:
 //    x[0] = -25292115.2221577350000000;
@@ -66,7 +69,7 @@ int main()
     // elliptical
     //vx[0] *= 1.2;
     //hyperbolic
-    vx[0] *= 1.5;
+    //vx[0] *= 1.5;
 
     for( j = 1 ; j < n ; j ++ )
     {
@@ -88,7 +91,7 @@ int main()
     //
     //////////////////////////////////////////////////
     //
-    fout = fopen( "orbit.csv" , "w" ) ;
+    fout = fopen( "orbit2.csv" , "w" ) ;
     //
     double dist, speed;
     fprintf(fout, "Index, Time, X, Y, Distance, Speed, vx, vy\n");
