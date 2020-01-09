@@ -3,8 +3,11 @@
 #define M 640
 #define N 480
 
-#define max_iter 100
+#define max_iter 1000
 static int rgb[N][M][3] ; // red-green-blue for each pixel
+static int iter_counts[N][M];
+static int num_iter_per_pixel[max_iter];
+static double hue[N][M];
 //
 
 void color(int y, int x, int r, int g, int b) {
@@ -20,12 +23,12 @@ int check(int py, int px) {
     double x = 0.0;
     double y = 0.0;
     for (int i = 0; i < max_iter; i++) {
-        if (x*x + y*y > 4) return 0;
+        if (x*x + y*y > 4) return i;
         x_temp = x*x - y*y + x0;
         y = 2*x*y + y0;
         x = x_temp;
     }
-    return 1;
+    return max_iter-1;
 }
 
 int main(void) {
@@ -33,10 +36,32 @@ int main(void) {
     //
     for (int py = 0 ; py < N ; py++ ) {
         for (int px = 0 ; px < M ; px++) {
-            if (check(py, px) == 0) color(py, px, 255, 255, 255);
-            else color(py, px, 0, 0, 0);
+//            if (check(py, px) == 0) color(py, px, 255, 255, 255);
+//            else color(py, px, 0, 0, 0);
+            iter_counts[py][px] = check(py, px);
         }
     }
+
+    for( int y = 0 ; y < N ; y++ ) {
+        for( int x = 0 ; x < M ; x++) {
+            num_iter_per_pixel[iter_counts[y][x]]++;
+        }
+    }
+
+    int total = 0;
+    for (int i = 0; i < max_iter; i++) total += num_iter_per_pixel[i];
+
+    for( int y = 0 ; y < N ; y++ ) {
+        for( int x = 0 ; x < M ; x++) {
+            for (int i = 0 ; i <= iter_counts[y][x]; i++) {
+                hue[y][x] += (double) num_iter_per_pixel[i] / (double) total;
+            }
+            // printf("%0.16f\n", hue[y][x]);
+            color(y, x, (int) (hue[y][x]*255.0), (int) (hue[y][x]*255.0), (int) (hue[y][x]*255.0));
+        }
+    }
+
+
     fout = fopen( "mandelbrot.ppm" , "w" ) ;
 
     fprintf( fout , "P3\n" ) ;
@@ -48,7 +73,7 @@ int main(void) {
         for( int x = 0 ; x < M ; x++)
         {
             fprintf( fout , "%d %d %d\n" ,
-                     rgb[y][x][0] , rgb[y][x][1] , rgb[y][x][2] ) ;
+                     255 - rgb[y][x][0] , 255 - rgb[y][x][1] , 255 - rgb[y][x][2] ) ;
         }
     }
     fclose( fout ) ;
