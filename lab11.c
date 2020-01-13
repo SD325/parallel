@@ -3,7 +3,7 @@
 #define M 640
 #define N 480
 
-#define max_iter 1000
+#define max_iter 100
 static int rgb[N][M][3] ; // red-green-blue for each pixel
 static int iter_counts[N][M];
 static int num_iter_per_pixel[max_iter];
@@ -28,7 +28,8 @@ int check(int py, int px) {
         y = 2*x*y + y0;
         x = x_temp;
     }
-    return max_iter-1;
+    // return max_iter-1;
+    return 0;
 }
 
 int main(void) {
@@ -51,13 +52,15 @@ int main(void) {
     int total = 0;
     for (int i = 0; i < max_iter; i++) total += num_iter_per_pixel[i];
 
+    int col = 0;
     for( int y = 0 ; y < N ; y++ ) {
         for( int x = 0 ; x < M ; x++) {
-            for (int i = 0 ; i <= iter_counts[y][x]; i++) {
-                hue[y][x] += (double) num_iter_per_pixel[i] / (double) total;
-            }
-            // printf("%0.16f\n", hue[y][x]);
-            color(y, x, (int) (hue[y][x]*255.0), (int) (hue[y][x]*255.0), (int) (hue[y][x]*255.0));
+//            for (int i = 0 ; i <= iter_counts[y][x]; i++) {
+//                hue[y][x] += ((double) num_iter_per_pixel[i] / (double) total);
+//            }
+//            color(y, x, (int) (hue[y][x]*255.0), (int) (hue[y][x]*255.0), (int) (hue[y][x]*255.0));
+            col = (int) (iter_counts[y][x] * 255. / (double) max_iter);
+            color(y, x, col, col, col);
         }
     }
 
@@ -73,7 +76,7 @@ int main(void) {
         for( int x = 0 ; x < M ; x++)
         {
             fprintf( fout , "%d %d %d\n" ,
-                     255 - rgb[y][x][0] , 255 - rgb[y][x][1] , 255 - rgb[y][x][2] ) ;
+                     rgb[y][x][0] , rgb[y][x][1] , rgb[y][x][2] ) ;
         }
     }
     fclose( fout ) ;
