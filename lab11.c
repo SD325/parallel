@@ -3,11 +3,12 @@
 #define M 640
 #define N 480
 
-#define max_iter 100
+#define max_iter 1000
+#define scale 15.0
 static int rgb[N][M][3] ; // red-green-blue for each pixel
 static int iter_counts[N][M];
 static int num_iter_per_pixel[max_iter];
-static double hue[N][M];
+// static double hue[N][M];
 //
 
 void color(int y, int x, int r, int g, int b) {
@@ -59,7 +60,7 @@ int main(void) {
 //                hue[y][x] += ((double) num_iter_per_pixel[i] / (double) total);
 //            }
 //            color(y, x, (int) (hue[y][x]*255.0), (int) (hue[y][x]*255.0), (int) (hue[y][x]*255.0));
-            col = (int) (iter_counts[y][x] * 255. / (double) max_iter);
+            col = (int) (iter_counts[y][x] * 255. * scale / (double) max_iter);
             color(y, x, col, col, col);
         }
     }
