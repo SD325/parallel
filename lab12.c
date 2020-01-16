@@ -37,8 +37,8 @@ void color(int y, int x, int r, int g, int b) {
 
 int check(int py, int px) {
     double x_temp;
-    double y0 = (double)py*(max_y - min_y)*2.0/N - (max_y - min_y);
-    double x0 = (double)px*(max_x - min_x)*2.0/M - (max_x - min_x);
+    double y0 = (double)py*(max_y - min_y)/N + min_y;
+    double x0 = (double)px*(max_x - min_x)/M + min_x;
     double x = 0.0;
     double y = 0.0;
     for (int i = 0; i < max_iter; i++) {
@@ -133,17 +133,19 @@ int main(int argc, char *argv[]) {
         // workers have rank > 0
         //
     else {
-        int interval_width = (int) (M / (size-1));
-        int x_max = interval_width * rank;
-        int x_min = x_max - interval_width;
-        int iter_count_send;
+//        int interval_width = (int) (M / (size-1));
+//        int x_max = interval_width * rank;
+//        int x_min = x_max - interval_width;
+        int iter_count_send = 0;
         for (int py = 0 ; py < N ; py++ ) {
-            for (int px = x_min ; px < x_max ; px++) {
-                iter_count_send = check(py, px);
-                // order: iterations, y, x
-                MPI_Send(&iter_count_send, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
-                MPI_Send(&py, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
-                MPI_Send(&px, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
+            for (int px = 0 ; px < M ; px++) {
+                if ((px*N + py)%(size-1) == (rank-1)) {
+                    iter_count_send = check(py, px);
+                    // order: iterations, y, x
+                    MPI_Send(&iter_count_send, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
+                    MPI_Send(&py, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
+                    MPI_Send(&px, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
+                }
             }
         }
     }
