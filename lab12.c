@@ -52,6 +52,7 @@ int check(int py, int px) {
 }
 
 int main(int argc, char *argv[]) {
+    printf("Starting...\n");
     //
     // MPI variables
     //
@@ -72,7 +73,7 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     //
-    srand(rank); // different!
+//    srand(rank); // different!
     //
     // manager has rank = 0
     //
