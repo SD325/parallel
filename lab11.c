@@ -3,6 +3,10 @@
 #define M 640
 #define N 480
 
+#define bound_x 2.0
+#define bound_y 1.5
+
+
 #define max_iter 1000
 #define scale 15.0
 static int rgb[N][M][3] ; // red-green-blue for each pixel
@@ -19,8 +23,8 @@ void color(int y, int x, int r, int g, int b) {
 
 int check(int py, int px) {
     double x_temp;
-    double y0 = (double)py*4./N - 2;
-    double x0 = (double)px*4./M - 2;
+    double y0 = (double)py*bound_y*2.0/N - bound_y;
+    double x0 = (double)px*bound_x*2.0/M - bound_x;
     double x = 0.0;
     double y = 0.0;
     for (int i = 0; i < max_iter; i++) {
