@@ -127,6 +127,7 @@ int main(int argc, char *argv[]) {
         printf("%20.16f\n", min_x);
         printf("%20.16f\n", max_x);
 
+        printf("Finished.\n");
     }
         //
         // workers have rank > 0
