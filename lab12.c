@@ -121,6 +121,10 @@ int main(int argc, char *argv[]) {
             }
         }
         fclose( fout ) ;
+        printf("%20.16f\n", min_y);
+        printf("%20.16f\n", max_y);
+        printf("%20.16f\n", min_x);
+        printf("%20.16f\n", max_x);
 
     }
         //
