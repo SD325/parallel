@@ -60,9 +60,11 @@ hue getHue(int y , int x) {
     bool none = true;
     double minPos_T = INFINITY;
     double rsq = dotp(r, r);
+    triple d;
     hue h = {0, 0, 0};
     for (int i = 0; i < 4; i++) {
-        triple d = {e.x - a[i].c.x, e.y - a[i].c.y, e.z - a[i].c.z};
+//        triple d = {e.x - a[i].c.x, e.y - a[i].c.y, e.z - a[i].c.z};
+        diff(&d, e, a[i].c);
         a_ = 1.0;
         b_ = 2.0 * dotp(r, d) / rsq;
         c_ = (dotp(d, d) - a[i].r * a[i].r) / rsq;
